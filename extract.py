@@ -14,5 +14,5 @@ jsontxt = json.loads(txt)
 rtype = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][4]['FACET_VALUES'])
 print(rtype)
 
-with open("tmp.txt", "w") as outfile:
+with open("tmp.json", "w") as outfile:
 	json.dump(rtype, outfile)
