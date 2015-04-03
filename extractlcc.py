@@ -2,7 +2,7 @@ import json
 import sys
 import os
 
-output = []
+changed = []
 
 if len(sys.argv) < 2:
 	sys.exit('Usage: python extractlcc.py <file>')
@@ -17,10 +17,11 @@ lcc = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][1]['FACET_
 def changeKeys(originalJSON):
 	for line in originalJSON:
 		tr = {'@KEY':'name', '@VALUE':'size'}
-		output.append({tr[k]: v for k, v in line.items()})
+		changed.append({tr[k]: v for k, v in line.items()})
 
 changeKeys(lcc);
 
+output = {"name": "content", "children": changed}
 print(output)
 
 with open("tmp2.json", "w") as outfile:
