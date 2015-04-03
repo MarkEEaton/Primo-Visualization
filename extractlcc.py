@@ -14,5 +14,10 @@ jsontxt = json.loads(txt)
 lcc = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][1]['FACET_VALUES'])
 print(lcc)
 
+for line in lcc:
+	tr = {'@KEY':'name', '@VALUE':'size'}
+	newlcc = {tr[k]: v for k, v in line.items()}
+	print(newlcc)
+
 with open("tmp2.json", "w") as outfile:
 	json.dump(lcc, outfile)
