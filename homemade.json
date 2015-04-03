@@ -1,0 +1,31 @@
+{
+ "name":"overall",
+ "children": [
+ {
+  "name": "content",
+  "children": [
+    {"name": "books", "size": 9203}, 
+    {"name": "other", "size": 55}, 
+    {"name": "journals", "size": 326}, 
+    {"name": "scores", "size": 4}, 
+    {"name": "text_resources", "size": 2}, 
+    {"name": "images", "size": 3}, 
+    {"name": "findingaids", "size": 1}, 
+    {"name": "media", "size": 282}
+    ]
+ },
+ {
+  "name": "content2",
+  "children": [
+    {"name": "books", "size": 9203}, 
+    {"name": "other", "size": 55}, 
+    {"name": "journals", "size": 326}, 
+    {"name": "scores", "size": 4}, 
+    {"name": "text_resources", "size": 2}, 
+    {"name": "images", "size": 3}, 
+    {"name": "findingaids", "size": 1}, 
+    {"name": "media", "size": 282}
+    ]
+ }
+ ]
+}
