@@ -9,15 +9,15 @@
 	</style>
 </head>
 <body>
-
-	Search titles in OneSearch for this term: 
+	<div style="font-family:arial">
+	Enter your search term(s) to discover where they are in the LC Classification:
+	</div>
 	<form name="myform" action="/submit" method="POST">
-		<input type="search" name="query" size="20" placeholder="Enter term here" />
+		<input type="search" name="query" size="20" placeholder="Enter term(s) here" />
 		<input type="submit" value="Search">
 	</form>
 
 	<script>
-
 		var diameter = 960,
 		    format = d3.format(",d"),
 		    color = d3.scale.category20c();
@@ -32,14 +32,18 @@
 		    .attr("height", diameter)
 		    .attr("class", "bubble");
 
-		d3.json("/static/tmp2.json", function(error, root) {
+		var root = {{ displaydata|tojson|safe }};
+
+		console.log(root);
 		  var node = svg.selectAll(".node")
-		      .data(bubble.nodes(classes(root))
-		      .filter(function(d) { return !d.children; }))
-		    .enter().append("g")
-		      .attr("class", "node")
-		      .attr("transform", function(d) { return "translate(" + d.x + "," + 
-		d.y + ")"; });
+		    .data(bubble.nodes(classes(root))
+		    .filter(function(d) { return !d.children; }))
+		  .enter().append("g")
+		    .attr("class", "node")
+		    .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+	
+
+	
 
 		  node.append("title")
 		      .text(function(d) { return d.className + ": " + format(d.value); });
@@ -52,7 +56,6 @@
 		      .attr("dy", ".3em")
 		      .style("text-anchor", "middle")
 		      .text(function(d) { return d.className.substring(0, d.r / 3); });
-		});
 
 		// Returns a flattened hierarchy containing all leaf nodes under the root.
 		function classes(root) {

@@ -3,22 +3,29 @@ from flask import (Flask, render_template, redirect, url_for,
 import requests
 import extractlcc
 import json
+import pdb
 
 app = Flask(__name__)
 
-
 @app.route('/')
 def index():
-    return render_template("viz.html")
+    return render_template("viz.html", displaydata={})
 
 
 @app.route('/submit', methods=['POST'])
 def submit():
 	query = request.form['query']
-	resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices/xservice/search/brief?&institution=KB&onCampus=false&query=title,contains,{{ query }}&indx=1&lang=eng&json=true')
+	resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices/xservice/search/brief?&institution=KB&onCampus=false&query=any,contains,%s&indx=1&lang=eng&json=true' % query)
 	apicall = json.loads(resp.text)
 	readydata = extractlcc.extract(apicall)
-	return redirect(url_for('index'))
+	if readydata == False:
+		return redirect('/error')
+	else:
+		return render_template("viz.html", displaydata=readydata)
 
+@app.route('/error')
+def handleerror():
+	return render_template("error.html")
 
-app.run(debug=True, port=8000, host='0.0.0.0')
+if __name__ == '__main__':
+	app.run(debug=True, port=8000, host='0.0.0.0')

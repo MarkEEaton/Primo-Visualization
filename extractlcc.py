@@ -1,13 +1,18 @@
 import json
 import sys
 import os
-
-changed = []
+import pdb
 
 def extract(jsontxt):
+	changed = []
+	errorcheck = False
 	print "running extract"
-	lcc = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][1]['FACET_VALUES'])
-
+	try:
+		lcc = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][1]['FACET_VALUES'])
+		errorcheck = True
+	except:
+		print('Term not found')
+		errorcheck = False
 
 	def changeKeys(originalJSON):
 		for line in originalJSON:
@@ -15,8 +20,10 @@ def extract(jsontxt):
 			changed.append({tr[k]: v for k, v in line.items()})
 			print "running change keys"
 
-	changeKeys(lcc);
-
-	output = {"name": "content", "children": changed}
-	print output
-	return output
+	if errorcheck == True:
+		changeKeys(lcc);
+		output = {"name": "content", "children": changed}
+		return output
+	else:
+		print('returning false')
+		return False
