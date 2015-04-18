@@ -11,12 +11,13 @@
 <body>
 	<div style="font-family:arial">
 	Enter your search term(s) to discover where they are in the LC Classification:
-	</div>
 	<form name="myform" action="/submit" method="POST">
 		<input type="search" name="query" size="20" placeholder="Enter term(s) here" />
-		<input type="submit" value="Search">
+		<input type="submit" value="Search"><br>
+		<input type="radio" name="type" value="lcc" checked>Library of Congress Classification<br>
+		<input type="radio" name="type" value="date">Publication Year
 	</form>
-
+	</div>
 	<script>
 		var diameter = 960,
 		    format = d3.format(",d"),
