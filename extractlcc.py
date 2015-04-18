@@ -10,12 +10,14 @@ def extract(jsontxt, radiochoice):
 	try:
 		if radiochoice == "lcc":
 			choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][1]['FACET_VALUES'])
+			errorcheck = True
 		elif radiochoice == "date":
 			choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][8]['FACET_VALUES'])
+			errorcheck = True
 		else:
 			print 'No choice selected'
 			choicedata = {}
-		errorcheck = True
+			errorcheck = False 
 	except:
 		print('Term not found')
 		errorcheck = False

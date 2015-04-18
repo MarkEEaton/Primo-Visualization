@@ -14,7 +14,7 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-	choice = "notanoption"
+	choice = "date"
 	query = request.form['query']
 	resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices/xservice/search/brief?&institution=KB&onCampus=false&query=any,contains,%s&indx=1&lang=eng&json=true' % query)
 	apicall = json.loads(resp.text)
