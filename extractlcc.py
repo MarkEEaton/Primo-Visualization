@@ -3,12 +3,18 @@ import sys
 import os
 import pdb
 
-def extract(jsontxt):
+def extract(jsontxt, radiochoice):
 	changed = []
 	errorcheck = False
 	print "running extract"
 	try:
-		lcc = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][1]['FACET_VALUES'])
+		if radiochoice == "lcc":
+			choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][1]['FACET_VALUES'])
+		elif radiochoice == "date":
+			choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][8]['FACET_VALUES'])
+		else:
+			print 'No choice selected'
+			choicedata = {}
 		errorcheck = True
 	except:
 		print('Term not found')
@@ -21,7 +27,7 @@ def extract(jsontxt):
 			print "running change keys"
 
 	if errorcheck == True:
-		changeKeys(lcc);
+		changeKeys(choicedata);
 		output = {"name": "content", "children": changed}
 		return output
 	else:
