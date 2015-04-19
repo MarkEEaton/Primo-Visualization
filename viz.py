@@ -14,11 +14,19 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
+
+	# get data from form in viz.html
 	choice = request.form['type'] 
 	query = request.form['query']
+	
+	# make an api request using the inserting the query variable in the url
 	resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices/xservice/search/brief?&institution=KB&onCampus=false&query=any,contains,%s&indx=1&lang=eng&json=true' % query)
+	
+	# assign the api data to a variable, pass it to the parsing function
 	apicall = json.loads(resp.text)
 	readydata = extractlcc.extract(apicall, choice)
+
+	# if the parsing function fails, dispaly an error, else display viz.html with data binded
 	if readydata == False:
 		return redirect('/error')
 	else:
