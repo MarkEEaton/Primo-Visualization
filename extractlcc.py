@@ -1,7 +1,6 @@
 import json
 import sys
 import os
-import pdb
 
 def extract(jsontxt, radiochoice):
 	

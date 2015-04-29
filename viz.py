@@ -3,7 +3,6 @@ from flask import (Flask, render_template, redirect, url_for,
 import requests
 import extractlcc
 import json
-import pdb
 import re
 
 app = Flask(__name__)
