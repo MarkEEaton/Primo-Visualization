@@ -1,6 +1,4 @@
 import json
-import sys
-import os
 
 def extract(jsontxt, radiochoice):
 	
@@ -20,11 +18,9 @@ def extract(jsontxt, radiochoice):
             choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][9]['FACET_VALUES'])
             errorcheck = True
         else:
-            print 'No choice selected'
             choicedata = {}
             errorcheck = False 
     except:
-        print('Term not found')
         errorcheck = False
 
     # change the keys in the json to what is needed by the d3 script
