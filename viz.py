@@ -21,10 +21,9 @@ def submit():
     # get data from form in viz.html and check using checkstr()
     if checkstr(request.form['query']) == True:
         query = request.form['query']
-        print 'checkstr is True'
     else:
-        print 'checkstr is False'
         return redirect('/error2')
+
     choice = request.form['type']
 	
     # make an api request using the inserting the query variable in the url
@@ -49,4 +48,4 @@ def handlerror2():
     return render_template("error2.html")
 
 if __name__ == '__main__':
-    app.run(port=8000, host='0.0.0.0')
+    app.run(port=8000, host='127.0.0.1')
