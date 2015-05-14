@@ -11,13 +11,16 @@
 </head>
 <body>
 	<div style="font-family:arial">
-	Enter your search term(s) to discover where they are in the Kingsborough collection:
+	This utility will let you discover where books are in the Kingsborough collection:
 	<form name="myform" action="/submit" method="POST">
-		<input type="search" name="query" size="20" placeholder="Enter term(s) here" />
-		<input type="submit" value="Search"><br>
-		<input type="radio" name="type" value="lcc" checked>Library of Congress Classification<br>
-		<input type="radio" name="type" value="date">Publication Year<br>
-		<input type="radio" name="type" value="genre">Genre
+		<input type="search" name="query" size="20" placeholder="Search these terms" />
+		 and show where they appear by 
+		<select name="type">
+			<option value="lcc" checked>Library of Congress Classification</option>
+			<option value="date">Publication Year</option>
+			<option value="genre">Genre</option>
+		</select>:
+		<input type="submit" value="Search">
 	</form>
 	<div id="errormsg"></div>
 	</div>
