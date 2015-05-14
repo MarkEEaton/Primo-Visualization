@@ -22,7 +22,7 @@ def submit():
     if checkstr(request.form['query']) == True:
         query = request.form['query']
     else:
-        return redirect('/error2')
+       return render_template("viz.html", errordata=2)
 
     choice = request.form['type']
 	
@@ -35,17 +35,9 @@ def submit():
 
     # if the parsing function fails, dispaly an error, else display viz.html with data
     if readydata == False:
-        return redirect('/error1')
+        return render_template("viz.html", errordata=1) 
     else:
         return render_template("viz.html", displaydata=readydata)
-
-@app.route('/error1')
-def handleerror1():
-    return render_template("error1.html")
-
-@app.route('/error2')
-def handlerror2():
-    return render_template("error2.html")
 
 if __name__ == '__main__':
     app.run(port=8000, host='127.0.0.1')
