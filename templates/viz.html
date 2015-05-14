@@ -2,6 +2,7 @@
 <html>
 <head>
 	<script src="http://d3js.org/d3.v3.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<style>
 		text {
@@ -10,26 +11,27 @@
 	</style>
 </head>
 <body>
-	<div style="font-family:arial">
-	This utility will let you discover where books are in the Kingsborough collection:
-	<form name="myform" action="/submit" method="POST">
-		<input type="search" name="query" size="20" placeholder="Search these terms" />
+	<div class="form-group">
+	<h4>This utility will let you discover where books are in the Kingsborough collection:
+	<form action="/submit" method="POST" class="form-inline">
+		<input type="text" name="query" placeholder="Search these terms" />
 		 and show where they appear by 
-		<select name="type">
+		<select name="type" class="form-control">
 			<option value="lcc" checked>Library of Congress Classification</option>
 			<option value="date">Publication Year</option>
 			<option value="genre">Genre</option>
-		</select>:
-		<input type="submit" value="Search">
+		</select>
+		<input type="submit" value="Search" class="btn btn-default active">
 	</form>
-	<div id="errormsg"></div>
+	</h4>
 	</div>
+	<div id="errormsg"></div>
 	<script>
 		if ({{ errordata }} === 1) {
-			$( "#errormsg" ).append( "<h1>Terms not found, please try again.</h1>" );
+			$( "#errormsg" ).append( "<p class='bg-danger'>Terms not found, please try again.</p>" );
 		}
 		else if ({{ errordata }} === 2) {
-			$( "#errormsg" ).append( "<h1>Invalid characters in your search string. Use only A-Z and space.</h1>" );
+			$( "#errormsg" ).append( "<p class='bg-danger'>Invalid characters in your search string. Use only A-Z and space.</p>" );
 		}
 		else {};
 		var diameter = 960,
