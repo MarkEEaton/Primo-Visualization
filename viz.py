@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("viz.html", displaydata={})
+    return render_template("viz.html", displaydata={}, errordata=0)
 
 
 @app.route('/submit', methods=['POST'])
@@ -22,7 +22,7 @@ def submit():
     if checkstr(request.form['query']) == True:
         query = request.form['query']
     else:
-       return render_template("viz.html", errordata=2)
+       return render_template("viz.html", displaydata={}, errordata=2)
 
     choice = request.form['type']
 	
@@ -35,9 +35,9 @@ def submit():
 
     # if the parsing function fails, dispaly an error, else display viz.html with data
     if readydata == False:
-        return render_template("viz.html", errordata=1) 
+        return render_template("viz.html", displaydata={}, errordata=1) 
     else:
-        return render_template("viz.html", displaydata=readydata)
+        return render_template("viz.html", displaydata=readydata, errordata=0)
 
 if __name__ == '__main__':
     app.run(port=8000, host='127.0.0.1')

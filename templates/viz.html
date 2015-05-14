@@ -2,6 +2,7 @@
 <html>
 <head>
 	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<style>
 		text {
 		  font: 10px sans-serif;
@@ -18,8 +19,16 @@
 		<input type="radio" name="type" value="date">Publication Year<br>
 		<input type="radio" name="type" value="genre">Genre
 	</form>
+	<div id="errormsg"></div>
 	</div>
 	<script>
+		if ({{ errordata }} === 1) {
+			$( "#errormsg" ).append( "<h1>Terms not found, please try again.</h1>" );
+		}
+		else if ({{ errordata }} === 2) {
+			$( "#errormsg" ).append( "<h1>Invalid characters in your search string. Use only A-Z and space.</h1>" );
+		}
+		else {};
 		var diameter = 960,
 		    format = d3.format(",d"),
 		    color = d3.scale.category20c();
