@@ -11,27 +11,29 @@
 	</style>
 </head>
 <body>
+<div class="container-fluid">
 	<div class="form-group">
-	<h4>This utility will let you discover where books are in the Kingsborough collection:
-	<form action="/submit" method="POST" class="form-inline">
-		<input type="text" name="query" placeholder="Search these terms" />
-		 and show where they appear by 
-		<select name="type" class="form-control">
-			<option value="lcc" checked>Library of Congress Classification</option>
-			<option value="date">Publication Year</option>
-			<option value="genre">Genre</option>
-		</select>
-		<input type="submit" value="Search" class="btn btn-default active">
-	</form>
-	</h4>
+		<h3>This utility will let you discover where books are in the Kingsborough collection:
+			<form action="/submit" method="POST" class="form-inline">
+			<input type="text" name="query" placeholder="Search these terms" />
+			 and show where they appear by 
+			<select name="type" class="form-control">
+				<option value="lcc" checked>Library of Congress Classification</option>
+				<option value="date">Publication Year</option>
+				<option value="genre">Genre</option>
+			</select>
+			<input type="submit" value="Search" class="btn btn-default active">
+			</form>
+		</h3>
 	</div>
 	<div id="errormsg"></div>
+</div>
 	<script>
 		if ({{ errordata }} === 1) {
-			$( "#errormsg" ).append( "<p class='bg-danger'>Terms not found, please try again.</p>" );
+			$( "#errormsg" ).append( "<div class='alert alert-danger' role='alert'>Terms not found, please try again.</div>" );
 		}
 		else if ({{ errordata }} === 2) {
-			$( "#errormsg" ).append( "<p class='bg-danger'>Invalid characters in your search string. Use only A-Z and space.</p>" );
+			$( "#errormsg" ).append( "<div class='alert alert-danger' role='alert'>Invalid characters in your search string. Use only A-Z and space.</div>" );
 		}
 		else {};
 		var diameter = 960,
