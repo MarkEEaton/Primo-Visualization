@@ -8,8 +8,15 @@ def extract(jsontxt, radiochoice):
 
     # parse data based on radio button selected. Returns error if it fails.
     if radiochoice == "lcc":
-        choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][1]['FACET_VALUES'])
-        errorcheck = True
+        try:
+            choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][1]['FACET_VALUES'])
+        except:
+            try:
+                choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][1])
+            except:
+                errorcheck = False 
+        else:
+            errorcheck = True
     elif radiochoice == "date":
         choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][8]['FACET_VALUES'])
         errorcheck = True
