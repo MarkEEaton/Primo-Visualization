@@ -7,15 +7,9 @@ import re
 
 app = Flask(__name__)
 
-allowed_ips = ['']
-
 @app.route('/')
 def index():
-    # check user's ip against a list of approved ips and load page
-    if request.access_route[0] in allowed_ips:
-        return render_template("viz.html", displaydata={}, errordata=0)
-    else:
-        return render_template("blocked_ip.html")
+    return render_template("viz.html", displaydata={}, errordata=0)
 
 @app.route('/submit', methods=['POST'])
 def submit():

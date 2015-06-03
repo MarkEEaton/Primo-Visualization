@@ -7,25 +7,21 @@ def extract(jsontxt, radiochoice):
     errorcheck = False
 
     # parse data based on radio button selected. Returns error if it fails.
-    if radiochoice == "lcc":
-        try:
+    try:
+        if radiochoice == "lcc":
             choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][1]['FACET_VALUES'])
-        except:
-            try:
-                choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][1])
-            except:
-                errorcheck = False 
-        else:
             errorcheck = True
-    elif radiochoice == "date":
-        choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][8]['FACET_VALUES'])
-        errorcheck = True
-    elif radiochoice == "genre":
-        choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][9]['FACET_VALUES'])
-        errorcheck = True
-    else:
-        choicedata = {}
-        errorcheck = False 
+        elif radiochoice == "date":
+            choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][8]['FACET_VALUES'])
+            errorcheck = True
+        elif radiochoice == "genre":
+            choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][9]['FACET_VALUES'])
+            errorcheck = True
+        else:
+            choicedata = {}
+            errorcheck = False 
+    except:
+        errorcheck = False
 
     # change the keys in the json to what is needed by the d3 script
     def changeKeys(originalJSON):
@@ -34,9 +30,19 @@ def extract(jsontxt, radiochoice):
             changed.append({tr[k]: v for k, v in line.items()})
         return
 
+    # make choicedata a list if it is not a list
+    def makelist(originaldata):
+        if type(originaldata) is list:
+            return originaldata
+        elif type(originaldata) is dict:
+            changeddata = [originaldata]
+            return changeddata 
+        else:
+            print "is something else."
+
     # if error free, return use-ready json, else return False
     if errorcheck == True:
-        changeKeys(choicedata);
+        changeKeys(makelist(choicedata))
         output = {"name": "content", "children": changed}
         return output
     else:
