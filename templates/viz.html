@@ -35,6 +35,9 @@
 		else if ({{ errordata }} === 2) {
 			$( "#errormsg" ).append( "<div class='alert alert-danger' role='alert'>Invalid characters in your search string. Use only A-Z and space.</div>" );
 		}
+		else if ({{ errordata }} === 3) {
+			$( "#errormsg" ).append( "<div class='alert alert-danger' role='alert'>Error with form submission. Please try again.</div>" );
+		}
 		else {};
 		var diameter = 960,
 		    format = d3.format(",d"),

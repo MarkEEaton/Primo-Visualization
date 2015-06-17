@@ -24,7 +24,12 @@ def submit():
         return render_template("viz.html", displaydata={}, errordata=2)
 
     choice = request.form['type']
-	
+    correct_choices = set(['lcc', 'date', 'genr'])
+    if not choice in correct_choices:
+        return render_template("viz.html", displaydata={}, errordata=3)
+    else:
+        pass
+
     # make an api request using the inserting the query variable in the url
     resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices/xservice/search/brief?&institution=KB&onCampus=false&query=any,contains,%s&query=facet_rtype,exact,books&indx=1&lang=eng&json=true' % query)
 	
@@ -39,4 +44,4 @@ def submit():
         return render_template("viz.html", displaydata=readydata, errordata=0)
 
 if __name__ == '__main__':
-    app.run(port=8000, host='127.0.0.1')
+    app.run(debug=True, port=8000, host='127.0.0.1')
