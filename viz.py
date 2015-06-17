@@ -41,4 +41,4 @@ def submit():
         return render_template("viz.html", displaydata=readydata, errordata=0)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8000, host='127.0.0.1')
+    app.run(port=8000, host='127.0.0.1')
