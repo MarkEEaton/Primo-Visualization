@@ -13,22 +13,19 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    # use regex to validate user input
-    def checkstr(userinput, search=re.compile(r'[^ a-zA-Z]').search):
-        return not bool (search(userinput))
-
-    # get data from form in viz.html and check using checkstr()
-    if checkstr(request.form['query']) == True:
-        query = request.form['query']
-    else:
+    # validate length and characters in query
+    if len(request.form['query']) > 200:
+        return render_template("viz.html", displaydata={}, errordata=4)
+    elif re.compile(r'[^ a-zA-Z]').search(request.form['query']):
         return render_template("viz.html", displaydata={}, errordata=2)
+    else:
+        query = request.form['query']
 
+    # validate dropdown menu
     choice = request.form['type']
-    correct_choices = set(['lcc', 'date', 'genr'])
+    correct_choices = set(['lcc', 'date', 'genre'])
     if not choice in correct_choices:
         return render_template("viz.html", displaydata={}, errordata=3)
-    else:
-        pass
 
     # make an api request using the inserting the query variable in the url
     resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices/xservice/search/brief?&institution=KB&onCampus=false&query=any,contains,%s&query=facet_rtype,exact,books&indx=1&lang=eng&json=true' % query)

@@ -38,6 +38,9 @@
 		else if ({{ errordata }} === 3) {
 			$( "#errormsg" ).append( "<div class='alert alert-danger' role='alert'>Error with form submission. Please try again.</div>" );
 		}
+		else if ({{ errordata }} === 4) {
+			$( "#errormsg" ).append( "<div class='alert alert-danger' role='alert'>Your search phrase is too long. Max 200 characters.</div>" );
+		}
 		else {};
 		var diameter = 960,
 		    format = d3.format(",d"),
