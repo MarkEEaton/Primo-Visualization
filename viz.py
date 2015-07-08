@@ -23,7 +23,7 @@ def submit():
 
     # validate dropdown menu
     choice = request.form['type']
-    correct_choices = set(['lcc', 'date', 'genre'])
+    correct_choices = set(['lcc', 'date'])
     if not choice in correct_choices:
         return render_template("viz.html", displaydata={}, errordata=3)
 
