@@ -28,7 +28,7 @@ def submit():
         return render_template("viz.html", displaydata={}, errordata=3)
 
     # make an api request using the inserting the query variable in the url
-    resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices/xservice/search/brief?&institution=KB&onCampus=false&query=any,contains,%s&query=facet_rtype,exact,books&indx=1&lang=eng&json=true' % query)
+    resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices/xservice/search/brief?&institution=KB&query=any,contains,%s&query=facet_rtype,exact,books&indx=1&lang=eng&json=true' % query)
 	
     # assign the api data to a variable, pass it to the parsing function
     apicall = json.loads(resp.text)
@@ -38,7 +38,7 @@ def submit():
     if readydata == False:
         return render_template("viz.html", displaydata={}, errordata=1) 
     else:
-        return render_template("viz.html", displaydata=readydata, errordata=0, ph=query)
+        return render_template("viz.html", displaydata=readydata, errordata=0, val=query)
 
 if __name__ == '__main__':
-    app.run(port=8000, host='127.0.0.1', debug=True)
+    app.run(port=8000, host='127.0.0.1')
