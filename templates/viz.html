@@ -12,6 +12,7 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#frmsbmt").submit(function(){
+				$("#errormsg").empty();
 				$("#errormsg").append("<div class='alert alert-success' role='alert'>Loading your data...</div>");
 			})
 		})
@@ -35,7 +36,7 @@
 			</form>
 		</h3>
 	</div>
-	<div id="errormsg"></div>
+	<div id="errormsg" style="position:absolute"></div>
 </div>
 	<script>
 		if ({{ errordata }} === 1) {
