@@ -9,12 +9,19 @@
 		  font: 10px sans-serif;
 		}
 	</style>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#frmsbmt").submit(function(){
+				$("#errormsg").append("<div class='alert alert-success' role='alert'>Loading your data...</div>");
+			})
+		})
+	</script>
 </head>
 <body>
 <div class="container-fluid">
 	<div class="form-group">
 		<h3>This utility will let you discover where books are in the Kingsborough collection:
-			<form action="/submit" method="POST" class="form-inline">
+			<form action="/submit" method="POST" class="form-inline" id="frmsbmt">
 				<input type="text" name="query" placeholder="Search these terms" />
 				 and show where they appear by 
 				<select name="type" class="form-control">
