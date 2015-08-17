@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("viz.html", displaydata={}, errordata=0)
+    return render_template("viz.html", displaydata={}, errordata=0, ph="Search these terms")
 
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -38,7 +38,7 @@ def submit():
     if readydata == False:
         return render_template("viz.html", displaydata={}, errordata=1) 
     else:
-        return render_template("viz.html", displaydata=readydata, errordata=0)
+        return render_template("viz.html", displaydata=readydata, errordata=0, ph=query)
 
 if __name__ == '__main__':
-    app.run(port=8000, host='127.0.0.1')
+    app.run(port=8000, host='127.0.0.1', debug=True)
