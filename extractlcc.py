@@ -14,9 +14,9 @@ def extract(jsontxt, radiochoice):
         elif radiochoice == "date":
             choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][8]['FACET_VALUES'])
             errorcheck = True
-#        elif radiochoice == "genre":
-#            choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][9]['FACET_VALUES'])
-#            errorcheck = True
+        elif radiochoice == "topic":
+            choicedata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']['FACET'][5]['FACET_VALUES'])
+            errorcheck = True
         else:
             choicedata = {}
             errorcheck = False 
