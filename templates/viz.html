@@ -6,11 +6,40 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<style>
 		text {
-		  font: 10px sans-serif;
+			font: 10px sans-serif;
+		}
+		#overlay {
+			background-color:#111111;
+			opacity:0.8;
+			position:absolute;
+			top:0;
+			right:0;
+			bottom:0;
+			left:0;
+		}
+		#overlay-message {
+			opacity:1;
+			color:black;
+			background-color:white;
+			border-radius:5px;
+			padding:30px;
+			border:2px solid black;
+		}
+		.center-block() {
+			display: block;
+			margin-left:auto;
+			margin-right:auto;
+		}
+		#overlay-message {
+			width: 940px;
+			.center-block();
 		}
 	</style>
 	<script type="text/javascript">
 		$(document).ready(function(){
+			$("#close-overlay").click(function(){
+				$("#overlay").hide()
+			})
 			$("#frmsbmt").submit(function(){
 				$("#errormsg").empty();
 				$("#errormsg").append("<div class='alert alert-success' role='alert'>Loading your data...</div>");
@@ -20,9 +49,21 @@
 </head>
 <body>
 <div class="container-fluid">
-	<div class="form-group">
-		<h3>This utility will let you discover where books are in the Kingsborough collection:
-			<form action="/submit" method="POST" class="form-inline" id="frmsbmt">
+	<form action="/submit" method="POST" id="frmsbmt">
+		<div id="overlay">
+			<div id="overlay-message" class="form-group text-center center-block form-inline">
+				<h3>
+					Please select your campus:<br>
+					<select name="campus" class="form-control">
+						<option value="kb">Kingsborough</option>
+						<option value="me">Medgar Evers</option>
+					</select>
+					<input id="close-overlay" value="Select" class="btn btn-default active">
+				</h3>
+			</div>
+		</div>
+		<div class="form-group form-inline">
+			<h3>This utility will let you discover where books are in the Kingsborough collection:
 				<input type="text" name="query" placeholder="Search these terms" value="{{ val }}" required />
 				 and show where they appear by 
 				<select name="type" class="form-control">
@@ -31,9 +72,9 @@
 					<option value="topic">Topic (top level LC Subject Heading)</option>
 				</select>
 				<input type="submit" value="Search" class="btn btn-default active">
-			</form>
-		</h3>
-	</div>
+			</h3>
+		</div>
+	</form>
 	<div id="errormsg" style="position:absolute"></div>
 </div>
 	<script>
