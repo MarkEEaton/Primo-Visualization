@@ -24,15 +24,16 @@
 			border-radius:5px;
 			padding:30px;
 			border:2px solid black;
+			width:450px;
+			height:170px;
 		}
-		.center-block() {
-			display: block;
+		.center-block {
 			margin-left:auto;
 			margin-right:auto;
 		}
-		#overlay-message {
-			width: 940px;
-			.center-block();
+		.vertical-align {
+			display:flex;
+			align-items:center;
 		}
 	</style>
 	<script type="text/javascript">
@@ -50,7 +51,7 @@
 <body>
 <div class="container-fluid">
 	<form action="/submit" method="POST" id="frmsbmt">
-		<div id="overlay">
+		<div id="overlay" class="row vertical-align">
 			<div id="overlay-message" class="form-group text-center center-block form-inline">
 				<h3>
 					Please select your campus:<br>
