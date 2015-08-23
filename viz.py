@@ -4,6 +4,7 @@ import requests
 import extractlcc
 import json
 import re
+import ast
 
 app = Flask(__name__)
 
@@ -27,9 +28,14 @@ def submit():
     if not choice in correct_choices:
         return render_template("viz.html", displaydata={}, errordata=3)
 
+    # extract campus info from the form
+    campus = ast.literal_eval(request.form['campus'])
+    campus_code = list(campus)[0]
+    campus_name = list(campus.values())[0]
+
     # make an api request using the inserting the query variable in the url
-    resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices/xservice/search/brief?&institution=KB&query=any,contains,%s&query=facet_rtype,exact,books&indx=1&lang=eng&json=true' % query)
-	
+    resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices/xservice/search/brief?&institution=%s&query=any,contains,%s&query=facet_rtype,exact,books&indx=1&lang=eng&json=true' % (campus_code, query))
+
     # assign the api data to a variable, pass it to the parsing function
     apicall = json.loads(resp.text)
     readydata = extractlcc.extract(apicall, choice)
@@ -38,7 +44,7 @@ def submit():
     if readydata == False:
         return render_template("viz.html", displaydata={}, errordata=1) 
     else:
-        return render_template("viz.html", displaydata=readydata, errordata=0, val=query)
+        return render_template("viz.html", displaydata=readydata, errordata=0, val=query, campus=campus)
 
 if __name__ == '__main__':
     app.run(port=8000, host='127.0.0.1')
