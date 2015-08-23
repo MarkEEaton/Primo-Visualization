@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("viz.html", displaydata={}, errordata=0)
+    return render_template("landing.html", displaydata={}, errordata=0)
 
 @app.route('/submit', methods=['POST'])
 def submit():

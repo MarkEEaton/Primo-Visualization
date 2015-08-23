@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<style>
+		text {
+			font: 10px sans-serif;
+		}
+		#message {
+			position:absolute;
+		}
+		#overlay {
+			background:rgba(20,20,20,0.8);
+			position:absolute;
+			top:0;
+			right:0;
+			bottom:0;
+			left:0;
+		}
+		#overlay-message {
+			opacity:1;
+			color:black;
+			background-color:white;
+			border-radius:5px;
+			padding:30px;
+			border:2px solid black;
+			width:450px;
+			height:auto;
+		}
+		.center-block {
+			margin-left:auto;
+			margin-right:auto;
+		}
+		.vertical-align {
+			display:flex;
+			align-items:center;
+		}
+	</style>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#close-overlay").click(function(){
+				$("#overlay").hide();
+			});
+			$("#campus-select").change(function (){
+				var campus = $("#campus-select option:selected").text();
+				$("#close-overlay").click(function(){
+					$("#campus-display").html(campus);
+				});
+			});
+			$("#formsubmit").submit(function(){
+				$("#message").empty();
+				$("#message").append("<div class='alert alert-success' role='alert'>Loading your data...</div>");
+			});
+		})
+	</script>
+</head>
+<body>
+<div class="container-fluid">
+	<form action="/submit" method="POST" id="formsubmit">
+		<div id="overlay" class="row vertical-align">
+			<div id="overlay-message" class="form-group text-center center-block form-inline">
+				<h3 style="margin-top:-3px">
+					Please select your campus:<br>
+					<select id="campus-select" name="campus" class="form-control">
+						<option value="bb">Baruch</option>
+						<option value="bm">BMCC</option>
+						<option value="bx">Bronx</option>
+						<option value="bc">Brooklyn</option>
+						<option value="cc">City College</option>
+						<option value="si">CSI</option>
+						<option value="gc">Graduate Center</option>
+						<option value="gj">Journalism</option>
+						<option value="cl">School of Law</option>
+						<option value="nc">Guttman</option>
+						<option value="ho">Hostos</option>
+						<option value="hc">Hunter</option>
+						<option value="jj">John Jay</option>
+						<option value="kb">Kingsborough</option>
+						<option value="lg">LaGuardia</option>
+						<option value="le">Lehman</option>
+						<option value="me">Medgar Evers</option>
+						<option value="ny">City Tech</option>
+						<option value="qc">Queens College</option>
+						<option value="qb">Queensborough</option>
+						<option value="yc">York</option>
+					</select>
+					<input id="close-overlay" value="Select" class="btn btn-default active" type="button">
+				</h3>
+			</div>
+		</div>
+		<div class="form-group form-inline">
+			<h3>This utility will let you discover where books are in the <span id="campus-display">Kingsborough</span> collection:<br>
+				<input type="text" name="query" placeholder="Search these terms" value="{{ val }}" required />
+				 and show where they appear by 
+				<select name="type" class="form-control">
+					<option value="lcc" checked>Library of Congress Classification</option>
+					<option value="date">Publication Year</option>
+					<option value="topic">Topic (top level LC Subject Heading)</option>
+				</select>
+				<input type="submit" value="Search" class="btn btn-default active">
+			</h3>
+		</div>
+	</form>
+	<div id="message"></div>
+</div>
+	<script>
+		if ({{ errordata }} === 1) {
+			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Terms not found, please try again.</div>" );
+		}
+		else if ({{ errordata }} === 2) {
+			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Invalid characters in your search string. Use only A-Z and space.</div>" );
+		}
+		else if ({{ errordata }} === 3) {
+			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Error with form submission. Please try again.</div>" );
+		}
+		else if ({{ errordata }} === 4) {
+			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Your search phrase is too long. Max 200 characters.</div>" );
+		}
+		else {};
+	</script>
+</body>
+</html>
