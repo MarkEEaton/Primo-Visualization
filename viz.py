@@ -1,5 +1,5 @@
 from flask import (Flask, render_template, redirect, url_for, 
-                   request)
+                   request, session)
 import requests
 import extractlcc
 import json
@@ -14,11 +14,22 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
+    # extract campus info from the form
+    try:
+        campus = ast.literal_eval(request.form['campus'])
+    except:
+        campus = session['campus']
+        pass
+    else:
+        session['campus'] = ast.literal_eval(request.form['campus'])
+    campus_code = list(campus)[0]
+    campus_name = list(campus.values())[0]
+
     # validate length and characters in query
     if len(request.form['query']) > 200:
-        return render_template("viz.html", displaydata={}, errordata=4)
+        return render_template("viz.html", displaydata={}, errordata=4, campus=campus)
     elif re.compile(r'[^ a-zA-Z]').search(request.form['query']):
-        return render_template("viz.html", displaydata={}, errordata=2)
+        return render_template("viz.html", displaydata={}, errordata=2, campus=campus)
     else:
         query = request.form['query']
 
@@ -26,12 +37,7 @@ def submit():
     choice = request.form['type']
     correct_choices = set(['lcc', 'date', 'topic'])
     if not choice in correct_choices:
-        return render_template("viz.html", displaydata={}, errordata=3)
-
-    # extract campus info from the form
-    campus = ast.literal_eval(request.form['campus'])
-    campus_code = list(campus)[0]
-    campus_name = list(campus.values())[0]
+        return render_template("viz.html", displaydata={}, errordata=3, campus=campus)
 
     # make an api request using the inserting the query variable in the url
     resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices/xservice/search/brief?&institution=%s&query=any,contains,%s&query=facet_rtype,exact,books&indx=1&lang=eng&json=true' % (campus_code, query))
@@ -42,9 +48,11 @@ def submit():
 
     # if the parsing function fails, dispaly an error, else display viz.html with data
     if readydata == False:
-        return render_template("viz.html", displaydata={}, errordata=1) 
+        return render_template("viz.html", displaydata={}, errordata=1, campus=campus) 
     else:
         return render_template("viz.html", displaydata=readydata, errordata=0, val=query, campus=campus)
 
+app.secret_key = ''
+
 if __name__ == '__main__':
-    app.run(port=8000, host='127.0.0.1', debug=True)
+    app.run(port=8000, host='127.0.0.1')
