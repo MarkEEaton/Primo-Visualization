@@ -17,7 +17,7 @@
 			$("#formsubmit").submit(function(){
 				$("#message").empty();
 				$("#message").append("<div class='alert alert-success' role='alert'>Loading your data...</div>");
-			})
+			});
 		})
 	</script>
 </head>
@@ -25,7 +25,7 @@
 <div class="container-fluid">
 	<form action="/submit" method="POST" id="formsubmit">
 		<div class="form-group form-inline">
-			<h3>This utility will let you discover where books are in the Kingsborough collection:
+			<h3>This utility will let you discover where books are in the {{ campus.values()[0] }} collection:
 				<input type="text" name="query" placeholder="Search these terms" value="{{ val }}" required />
 				 and show where they appear by 
 				<select name="type" class="form-control">
