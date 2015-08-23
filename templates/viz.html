@@ -6,23 +6,26 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<style>
 		text {
-		  font: 10px sans-serif;
+			font: 10px sans-serif;
+		}
+		#message {
+			position:absolute;
 		}
 	</style>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$("#frmsbmt").submit(function(){
-				$("#errormsg").empty();
-				$("#errormsg").append("<div class='alert alert-success' role='alert'>Loading your data...</div>");
-			})
+			$("#formsubmit").submit(function(){
+				$("#message").empty();
+				$("#message").append("<div class='alert alert-success' role='alert'>Loading your data...</div>");
+			});
 		})
 	</script>
 </head>
 <body>
 <div class="container-fluid">
-	<div class="form-group">
-		<h3>This utility will let you discover where books are in the Kingsborough collection:
-			<form action="/submit" method="POST" class="form-inline" id="frmsbmt">
+	<form action="/submit" method="POST" id="formsubmit">
+		<div class="form-group form-inline">
+			<h3>This utility will let you discover where books are in the {{ campus.values()[0] }} collection:<br>
 				<input type="text" name="query" placeholder="Search these terms" value="{{ val }}" required />
 				 and show where they appear by 
 				<select name="type" class="form-control">
@@ -31,23 +34,23 @@
 					<option value="topic">Topic (top level LC Subject Heading)</option>
 				</select>
 				<input type="submit" value="Search" class="btn btn-default active">
-			</form>
-		</h3>
-	</div>
-	<div id="errormsg" style="position:absolute"></div>
+			</h3>
+		</div>
+	</form>
+	<div id="message"></div>
 </div>
 	<script>
 		if ({{ errordata }} === 1) {
-			$( "#errormsg" ).append( "<div class='alert alert-danger' role='alert'>Terms not found, please try again.</div>" );
+			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Terms not found, please try again.</div>" );
 		}
 		else if ({{ errordata }} === 2) {
-			$( "#errormsg" ).append( "<div class='alert alert-danger' role='alert'>Invalid characters in your search string. Use only A-Z and space.</div>" );
+			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Invalid characters in your search string. Use only A-Z and space.</div>" );
 		}
 		else if ({{ errordata }} === 3) {
-			$( "#errormsg" ).append( "<div class='alert alert-danger' role='alert'>Error with form submission. Please try again.</div>" );
+			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Error with form submission. Please try again.</div>" );
 		}
 		else if ({{ errordata }} === 4) {
-			$( "#errormsg" ).append( "<div class='alert alert-danger' role='alert'>Your search phrase is too long. Max 200 characters.</div>" );
+			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Your search phrase is too long. Max 200 characters.</div>" );
 		}
 		else {};
 		var diameter = 960,
