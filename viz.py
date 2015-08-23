@@ -14,7 +14,7 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    # extract campus info from the form
+    # extract campus info from the form, otherwise extract from the session
     try:
         campus = ast.literal_eval(request.form['campus'])
     except:
@@ -52,7 +52,7 @@ def submit():
     else:
         return render_template("viz.html", displaydata=readydata, errordata=0, val=query, campus=campus)
 
-app.secret_key = ''
+app.secret_key = 'key goes here'
 
 if __name__ == '__main__':
     app.run(port=8000, host='127.0.0.1')
