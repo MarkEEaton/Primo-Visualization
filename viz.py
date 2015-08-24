@@ -1,7 +1,7 @@
 from flask import (Flask, render_template, redirect, url_for, 
                    request, session)
 import requests
-import extractlcc
+import extractfromjson
 import json
 import re
 import ast
@@ -21,9 +21,33 @@ def submit():
         campus = session['campus']
         pass
     else:
-        session['campus'] = ast.literal_eval(request.form['campus'])
+        correct_campus = set(["{'BB': 'Baruch'}",
+                              "{'BM': 'BMCC'}",
+                              "{'BX': 'Bronx CC'}",
+                              "{'BC': 'Brooklyn College'}",
+                              "{'CC': 'City College'}",
+                              "{'SI': 'CSI'}",
+                              "{'GC': 'Graduate Center'}",
+                              "{'GJ': 'School of Journalism'}",
+                              "{'CL': 'School of Law'}",
+                              "{'NC': 'Guttman'}",
+                              "{'HO': 'Hostos'}",
+                              "{'HC': 'Hunter'}",
+                              "{'JJ': 'John Jay'}",
+                              "{'KB': 'Kingsborough'}",
+                              "{'LG': 'LaGuardia'}",
+                              "{'LE': 'Lehman'}",
+                              "{'ME': 'Medgar Evers'}",
+                              "{'NY': 'City Tech'}",
+                              "{'QC': 'Queens College'}",
+                              "{'QB': 'Queensborough'}",
+                              "{'YC': 'York'}"
+                            ])
+        if not request.form['campus'] in correct_campus:
+            return render_template("viz.html", displaydata={}, errordata=3, campus=campus)
+        else:
+            session['campus'] = ast.literal_eval(request.form['campus'])
     campus_code = list(campus)[0]
-    campus_name = list(campus.values())[0]
 
     # validate length and characters in query
     if len(request.form['query']) > 200:
@@ -40,11 +64,11 @@ def submit():
         return render_template("viz.html", displaydata={}, errordata=3, campus=campus)
 
     # make an api request using the inserting the query variable in the url
-    resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices/xservice/search/brief?&institution=%s&query=any,contains,%s&query=facet_rtype,exact,books&indx=1&lang=eng&json=true' % (campus_code, query))
+    resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices/xservice/search/brief?&institution={}&query=any,contains,{}&query=facet_rtype,exact,books&indx=1&lang=eng&json=true'.format(campus_code, query))
 
     # assign the api data to a variable, pass it to the parsing function
     apicall = json.loads(resp.text)
-    readydata = extractlcc.extract(apicall, choice)
+    readydata = extractfromjson.extract(apicall, choice)
 
     # if the parsing function fails, dispaly an error, else display viz.html with data
     if readydata == False:
@@ -55,4 +79,4 @@ def submit():
 app.secret_key = 'key goes here'
 
 if __name__ == '__main__':
-    app.run(port=8000, host='127.0.0.1')
+    app.run(port=8000, host='127.0.0.1', debug=True)
