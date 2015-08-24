@@ -4,56 +4,8 @@
 	<script src="http://d3js.org/d3.v3.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<style>
-		text {
-			font: 10px sans-serif;
-		}
-		#message {
-			position:absolute;
-		}
-		#overlay {
-			background:rgba(20,20,20,0.8);
-			position:absolute;
-			top:0;
-			right:0;
-			bottom:0;
-			left:0;
-		}
-		#overlay-message {
-			opacity:1;
-			color:black;
-			background-color:white;
-			border-radius:5px;
-			padding:30px;
-			border:2px solid black;
-			width:450px;
-			height:auto;
-		}
-		.center-block {
-			margin-left:auto;
-			margin-right:auto;
-		}
-		.vertical-align {
-			display:flex;
-			align-items:center;
-		}
-	</style>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$("#close-overlay").click(function(){
-				$("#overlay").hide();
-			});
-			$("#campus-select").change(function (){
-				var campus = $("#campus-select option:selected").text();
-				$("#close-overlay").click(function(){
-					$("#campus-display").html(campus);
-				});
-			});
-			$("#formsubmit").submit(function(){
-				$("#message").empty();
-				$("#message").append("<div class='alert alert-success' role='alert'>Loading your data...</div>");
-			});
-		})
+	<link rel="stylesheet" href="../static/viz.css">
+	<script type="text/javascript" src="../static/landing.js">
 	</script>
 </head>
 <body>
@@ -105,20 +57,20 @@
 	</form>
 	<div id="message"></div>
 </div>
-	<script>
-		if ({{ errordata }} === 1) {
-			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Terms not found, please try again.</div>" );
-		}
-		else if ({{ errordata }} === 2) {
-			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Invalid characters in your search string. Use only A-Z and space.</div>" );
-		}
-		else if ({{ errordata }} === 3) {
-			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Error with form submission. Please try again.</div>" );
-		}
-		else if ({{ errordata }} === 4) {
-			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Your search phrase is too long. Max 200 characters.</div>" );
-		}
-		else {};
-	</script>
+<script>
+	if ({{ errordata }} === 1) {
+		$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Terms not found, please try again.</div>" );
+	}
+	else if ({{ errordata }} === 2) {
+		$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Invalid characters in your search string. Use only A-Z and space.</div>" );
+	}
+	else if ({{ errordata }} === 3) {
+		$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Error with form submission. Please try again.</div>" );
+	}
+	else if ({{ errordata }} === 4) {
+		$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Your search phrase is too long. Max 200 characters.</div>" );
+	}
+	else {};
+</script>
 </body>
 </html>
