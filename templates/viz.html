@@ -25,31 +25,34 @@
 <div class="container-fluid">
 	<form action="/submit" method="POST" id="formsubmit">
 		<div class="form-group form-inline">
-			<h3>This utility will let you discover where books are in the {{ campus.values()[0] }} collection:<br>
-				<input type="text" name="query" placeholder="Search these terms" value="{{ val }}" required />
-				 and show where they appear by 
-				<select name="type" class="form-control">
-					<option value="lcc" checked>Library of Congress Classification</option>
-					<option value="date">Publication Year</option>
-					<option value="topic">Topic (top level LC Subject Heading)</option>
-				</select>
-				<input type="submit" value="Search" class="btn btn-default active">
+			<h3>
+				<p>This utility will let you discover where books are in the {{ campus.values()[0]|safe }} collection:<br></p>
+				<p style="margin-top:-7px">
+					<input type="text" name="query" placeholder="Search these terms" value="{{ val|safe }}" required />
+					 and show where they appear by 
+					<select name="type" class="form-control">
+						<option value="lcc" checked>Library of Congress Classification</option>
+						<option value="date">Publication Year</option>
+						<option value="topic">Topic (top level LC Subject Heading)</option>
+					</select>
+					<input type="submit" value="Search" class="btn btn-default active">
+				</p>
 			</h3>
 		</div>
 	</form>
-	<div id="message"></div>
+	<div id="message" style="margin-top:-10px"></div>
 </div>
 	<script>
-		if ({{ errordata }} === 1) {
+		if ({{ errordata|safe }} === 1) {
 			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Terms not found, please try again.</div>" );
 		}
-		else if ({{ errordata }} === 2) {
+		else if ({{ errordata|safe }} === 2) {
 			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Invalid characters in your search string. Use only A-Z and space.</div>" );
 		}
-		else if ({{ errordata }} === 3) {
+		else if ({{ errordata|safe }} === 3) {
 			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Error with form submission. Please try again.</div>" );
 		}
-		else if ({{ errordata }} === 4) {
+		else if ({{ errordata|safe }} === 4) {
 			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Your search phrase is too long. Max 200 characters.</div>" );
 		}
 		else {};
