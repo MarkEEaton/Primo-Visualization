@@ -2,14 +2,20 @@
 <html>
 <head>
 	<script src="http://d3js.org/d3.v3.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<style>
 		text {
 			font: 10px sans-serif;
 		}
 		#message {
 			position:absolute;
+		}
+		#helpmenu {
+			position:fixed;
+			bottom:0px;
+			right:0px;
 		}
 	</style>
 	<script type="text/javascript">
@@ -18,6 +24,7 @@
 				$("#message").empty();
 				$("#message").append("<div class='alert alert-success' role='alert'>Loading your data...</div>");
 			});
+			$('.dropdown-toggle').dropdown()
 		})
 	</script>
 </head>
@@ -41,6 +48,18 @@
 		</div>
 	</form>
 	<div id="message" style="margin-top:-10px"></div>
+</div>
+<div class="dropup" id="helpmenu">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Dropdown
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li><a href="#">Something else here</a></li>
+    <li><a href="#">Separated link</a></li>
+  </ul>
 </div>
 	<script>
 		if ({{ errordata|safe }} === 1) {
