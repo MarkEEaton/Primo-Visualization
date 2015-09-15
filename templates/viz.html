@@ -2,14 +2,20 @@
 <html>
 <head>
 	<script src="http://d3js.org/d3.v3.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<style>
 		text {
 			font: 10px sans-serif;
 		}
 		#message {
 			position:absolute;
+		}
+		#helpmenu {
+			position:fixed;
+			bottom:0px;
+			right:0px;
 		}
 	</style>
 	<script type="text/javascript">
@@ -18,6 +24,7 @@
 				$("#message").empty();
 				$("#message").append("<div class='alert alert-success' role='alert'>Loading your data...</div>");
 			});
+			$('.dropdown-toggle').dropdown()
 		})
 	</script>
 </head>
@@ -32,8 +39,8 @@
 					 and show where they appear by 
 					<select name="type" class="form-control">
 						<option value="lcc" checked>Library of Congress Classification</option>
-						<option value="date">Publication Year</option>
-						<option value="topic">Topic (top level LC Subject Heading)</option>
+						<option value="creationdate">Creation Date</option>
+						<option value="topic">Topic</option>
 					</select>
 					<input type="submit" value="Search" class="btn btn-default active">
 				</p>
@@ -41,6 +48,29 @@
 		</div>
 	</form>
 	<div id="message" style="margin-top:-10px"></div>
+</div>
+<div class="dropup pull-right" id="helpmenu">
+  	<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    	How does this tool work?
+    	<span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+		<li><a href="#"><h4>So what does this do anyway?</h4>
+		<li><a href="#"><p>This tool searches books and ebooks that are<br> 
+						   accessible to the selected college. This includes<br> 
+						   local items; centrally-hosted items available to<br>
+						   the college; and items in CUNY Academic Works.</p></a></li>
+		<li><a href="#"><p>The “Library of Congress Classification” display<br> 
+						   option shows LC classes for both print books and<br>
+						   for most electronic books. However, LC classes<br>
+						   would not be included for items from Academic<br>
+						   Works.</p></a></li>
+		<li><a href="#"><p>For the most part, results from the “Topic”<br>
+						   display option are populated by top level LC<br>
+						   subject headings, but for some items, such as<br>
+						   those from Academic Works, these results would<br>
+						   include tags that are not LCSH.<p></a></li>
+	</ul>
 </div>
 	<script>
 		if ({{ errordata|safe }} === 1) {
