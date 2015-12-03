@@ -69,11 +69,12 @@ def submit():
                                errordata=3, campus=campus)
 
     # make an api request using the inserting the query variable in the url
-    resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices\
-           /xservice/search/brief?&institution={}&query=any,contains,\
-           {}&query=facet_rtype,exact,books&indx=1&loc=local,scope:\
-           (KB,AL,CUNY_BEPRESS)&loc=adaptor,primo_central_multiple_fe\
-           &json=true'.format(campus_code, query))
+    resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices'
+                        '/xservice/search/brief?&institution={}&'
+                        'query=any,contains,{}&query=facet_rtype,exact,'
+                        'books&indx=1&loc=local,scope:(KB,AL,CUNY_BEPRESS)&'
+                        'loc=adaptor,primo_central_multiple_fe'
+                        '&json=true'.format(campus_code, query))
 
     # assign the api data to a variable, pass it to the parsing function
     apicall = json.loads(resp.text)
@@ -91,4 +92,4 @@ def submit():
 app.secret_key = 'key goes here'
 
 if __name__ == '__main__':
-    app.run(port=8000, host='127.0.0.1', debug=True)
+    app.run(port=8000, host='127.0.0.1')
