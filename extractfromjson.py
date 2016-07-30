@@ -27,15 +27,13 @@ def extract(jsontxt, radiochoice):
         if type(originaldata) is list:
             return originaldata
         elif type(originaldata) is dict:
-            changeddata = [originaldata]
-            return changeddata
+            return [originaldata]
         else:
             print "is not a dict or a list."
 
     # if error free, return use-ready json, else return False
     if errorcheck is True:
         changeKeys(makelist(choicedata))
-        output = {"name": "content", "children": changed}
-        return output
+        return {"name": "content", "children": changed}
     else:
         return False
