@@ -11,19 +11,20 @@ app = Flask(__name__)
 class SearchForm(Form):
     keywords = StringField('Search these terms', [
                validators.Length(max=200), 
-               validators.Regexp(r'[^ a-zA-Z]')])
-
-form = SearchForm()
+               validators.Regexp('^[ a-zA-Z]*$')])
 
 @app.route('/')
 def index():
+    form = SearchForm()
     return render_template("landing.html", displaydata={}, errordata=0, form=form)
 
 
 @app.route('/submit', methods=['POST'])
 def submit():
     form = SearchForm(request.form)
-    print "form loaded"
+    print request.form 
+    print request.method
+    print form.validate()
     if request.method == 'POST' and form.validate():
         print "success"
 
