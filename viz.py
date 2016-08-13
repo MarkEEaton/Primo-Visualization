@@ -1,4 +1,5 @@
 from flask import (Flask, render_template, request, session)
+from wtforms import *
 import requests
 import extractfromjson
 import json
@@ -7,14 +8,25 @@ import ast
 
 app = Flask(__name__)
 
+class SearchForm(Form):
+    keywords = StringField('Search these terms', [
+               validators.Length(max=200), 
+               validators.Regexp(r'[^ a-zA-Z]')])
+
+form = SearchForm()
 
 @app.route('/')
 def index():
-    return render_template("landing.html", displaydata={}, errordata=0)
+    return render_template("landing.html", displaydata={}, errordata=0, form=form)
 
 
 @app.route('/submit', methods=['POST'])
 def submit():
+    form = SearchForm(request.form)
+    print "form loaded"
+    if request.method == 'POST' and form.validate():
+        print "success"
+
     # extract campus info from the form, otherwise extract from the session
     try:
         campus = ast.literal_eval(request.form['campus'])
