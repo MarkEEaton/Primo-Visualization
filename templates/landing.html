@@ -15,29 +15,7 @@
 			<div id="overlay-message" class="form-group text-center center-block form-inline">
 				<h3 style="margin-top:-3px">
 					Please select your campus:<br>
-					<select id="campus-select" name="campus" class="form-control">
-						<option value="{'BB': 'Baruch'}">Baruch</option>
-						<option value="{'BM': 'BMCC'}">BMCC</option>
-						<option value="{'BX': 'Bronx CC'}">Bronx CC</option>
-						<option value="{'BC': 'Brooklyn College'}">Brooklyn College</option>
-						<option value="{'CC': 'City College'}">City College</option>
-						<option value="{'SI': 'CSI'}">CSI</option>
-						<option value="{'GC': 'Graduate Center'}">Graduate Center</option>
-						<option value="{'GJ': 'School of Journalism'}">School of Journalism</option>
-						<option value="{'CL': 'School of Law'}">School of Law</option>
-						<option value="{'NC': 'Guttman'}">Guttman</option>
-						<option value="{'HO': 'Hostos'}">Hostos</option>
-						<option value="{'HC': 'Hunter'}">Hunter</option>
-						<option value="{'JJ': 'John Jay'}">John Jay</option>
-						<option value="{'KB': 'Kingsborough'}">Kingsborough</option>
-						<option value="{'LG': 'LaGuardia'}">LaGuardia</option>
-						<option value="{'LE': 'Lehman'}">Lehman</option>
-						<option value="{'ME': 'Medgar Evers'}">Medgar Evers</option>
-						<option value="{'NY': 'City Tech'}">City Tech</option>
-						<option value="{'QC': 'Queens College'}">Queens College</option>
-						<option value="{'QB': 'Queensborough'}">Queensborough</option>
-						<option value="{'YC': 'York'}">York</option>
-					</select>
+                    {{ form.campus(id="campus-select", class="form-control") }}
 					<input id="close-overlay" value="Select" class="btn btn-default active" type="button">
 				</h3>
 			</div>
