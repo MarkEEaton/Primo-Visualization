@@ -31,6 +31,7 @@ campuschoices = [('BB', 'Baruch'),
                  ('YC', 'York')
                  ]
 
+# set up wtforms class
 class SearchForm(Form):
     keywords = StringField('query', [
                validators.Length(max=200, message="length"), 
@@ -49,6 +50,7 @@ def submit():
     form = SearchForm(request.form)
 
     def validateform(form):
+        """validates the form, else returns error codes"""
         if request.method == 'POST' and form.validate():
             global query
             query = form.keywords.data 
@@ -58,23 +60,19 @@ def submit():
             return form.errors['keywords'][0]
 
     # extract campus info from the form, otherwise extract from the session
- 
     try:
         chosencampus = form.campus
-        print "loaded campus from form"
     except:
         chosencampus = session['campus']
-        print "loaded campus from sesssion"
         pass
+
+    # if the campus doesn't validate, throw an error, or otherwise
+    # save the campus in the session
     else:
-        print "else firing"
-        print validateform(form)
         if validateform(form) == "campus":
-            print "failed validation"
             return render_template("viz.html", displaydata={},
                                    errordata=3, campus=chosencampus)
         else:
-            print "loaded campus into session"
             session['campus'] = form.campus
             pass
 
@@ -97,7 +95,7 @@ def submit():
                                errordata=3, campus=chosencampus)
 
     # make an api request using the inserting the query variable in the url
-    campus_code = form.campus.data
+    campus_code = chosencampus.data
     print campus_code
     print query
     resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices'
