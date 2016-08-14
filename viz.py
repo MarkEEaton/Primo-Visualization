@@ -10,8 +10,8 @@ app = Flask(__name__)
 
 class SearchForm(Form):
     keywords = StringField('Search these terms', [
-               validators.Length(max=200), 
-               validators.Regexp('^[ a-zA-Z]*$')])
+               validators.Length(max=200, message="length"), 
+               validators.Regexp('^[ a-zA-Z]*$', message="regex")])
 
 @app.route('/')
 def index():
@@ -22,11 +22,13 @@ def index():
 @app.route('/submit', methods=['POST'])
 def submit():
     form = SearchForm(request.form)
-    print request.form 
-    print request.method
-    print form.validate()
-    if request.method == 'POST' and form.validate():
-        print "success"
+
+    def validate(form):
+        if request.method == 'POST' and form.validate():
+            query = request.form['query']
+            return True
+        else:
+            return form.errors['keywords'][0]
 
     # extract campus info from the form, otherwise extract from the session
     try:
@@ -65,10 +67,10 @@ def submit():
     campus_code = list(campus)[0]
 
     # validate length and characters in query
-    if len(request.form['query']) > 200:
+    if validate(form) == "length":
         return render_template("viz.html", displaydata={},
                                errordata=4, campus=campus)
-    elif re.compile(r'[^ a-zA-Z]').search(request.form['query']):
+    elif validate(form) == "regex":
         return render_template("viz.html", displaydata={},
                                errordata=2, campus=campus)
     else:
