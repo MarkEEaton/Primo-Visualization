@@ -8,6 +8,10 @@ import ast
 
 app = Flask(__name__)
 
+
+facetchoices = [('lcc', 'Library of Congress Classification'), 
+                ('creationdate', 'Creation Date'),
+                ('topic', 'Topic')]
 campuschoices = [('BB', 'Baruch'),
                  ('BM', 'BMCC'),
                  ('BX', 'Bronx CC'),
@@ -37,7 +41,9 @@ class SearchForm(Form):
                validators.Length(max=200, message="length"), 
                validators.Regexp('^[ a-zA-Z]*$', message="regex")])
     campus = SelectField('Campus', choices=campuschoices,
-               validators=[validators.Required(message="campus")])
+             validators=[validators.Required(message="campus")])
+    facet = SelectField('Facet', choices=facetchoices,
+            validators=[validators.Required(message="facet")])
 
 @app.route('/')
 def index():
@@ -56,12 +62,12 @@ def submit():
             query = form.keywords.data 
             return True
         else:
-            print "returning false" 
-            return form.errors['keywords'][0]
+            return form.errors.itervalues().next()
 
     # extract campus info from the form, otherwise extract from the session
     try:
         chosencampus = form.campus
+        chosencampusname = dict(campuschoices).get(form.campus.data)
     except:
         chosencampus = session['campus']
         pass
@@ -69,35 +75,29 @@ def submit():
     # if the campus doesn't validate, throw an error, or otherwise
     # save the campus in the session
     else:
-        if validateform(form) == "campus":
+        if validateform(form) == ["campus"]:
             return render_template("viz.html", displaydata={},
-                                   errordata=3, campus=chosencampus)
+                                   errordata=3, campus=chosencampusname)
         else:
             session['campus'] = form.campus
             pass
 
 
-    # validate length and characters in query
-    if validateform(form) == "length":
+    # validate facet choice and length and characters in query
+    if validateform(form) == ["length"]:
         return render_template("viz.html", displaydata={},
-                               errordata=4, campus=chosencampus)
-    elif validateform(form) == "regex":
+                               errordata=4, campus=chosencampusname)
+    elif validateform(form) == ["regex"]:
         return render_template("viz.html", displaydata={},
-                               errordata=2, campus=chosencampus)
+                               errordata=2, campus=chosencampusname)
+    elif validateform(form) == ["facet"]:
+        return render_template("viz.html", displaydata={},
+                               errordata=3, campus=chosencampusname)
     else:
         pass
 
-    # validaVte dropdown menu
-    choice = request.form['type']
-    correct_choices = set(['lcc', 'creationdate', 'topic'])
-    if choice not in correct_choices:
-        return render_template("viz.html", displaydata={},
-                               errordata=3, campus=chosencampus)
-
     # make an api request using the inserting the query variable in the url
     campus_code = chosencampus.data
-    print campus_code
-    print query
     resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices'
                         '/xservice/search/brief?&institution={}&'
                         'query=any,contains,{}&query=facet_rtype,exact,'
@@ -113,10 +113,11 @@ def submit():
     # viz.html with data
     if readydata is False:
         return render_template("viz.html", displaydata={}, errordata=1,
-                               campus=chosencampus)
+                               campus=chosencampusname)
     else:
         return render_template("viz.html", displaydata=readydata,
-                               errordata=0, val=query, campus=chosencampus)
+                               errordata=0, val=query, 
+                               campus=chosencampusname)
 
 app.secret_key = 'key goes here'
 
