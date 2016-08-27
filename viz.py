@@ -65,26 +65,21 @@ def submit():
             return form.errors.itervalues().next()
 
     # extract campus info from the form, otherwise extract from the session
-    try:
-        chosencampus = form.campus
-        chosencampusname = dict(campuschoices).get(form.campus.data)
-    except:
-        chosencampus = session['campus']
+    if form.campus.data == "None":
+        campus_code = session['campus_code']
+        chosencampusname = session['chosencampusname']
         pass
+    else: 
+        campus_code = form.campus.data
+        chosencampusname = dict(campuschoices).get(form.campus.data)
+        session['campus_code'] = campus_code 
+        session['chosencampusname'] = chosencampusname
 
-    # if the campus doesn't validate, throw an error, or otherwise
-    # save the campus in the session
-    else:
-        if validateform(form) == ["campus"]:
-            return render_template("viz.html", displaydata={},
-                                   errordata=3, campus=chosencampusname)
-        else:
-            session['campus'] = form.campus
-            pass
-
-
-    # validate facet choice and length and characters in query
-    if validateform(form) == ["length"]:
+    # validate the form
+    if validateform(form) == ["campus"]:
+        return render_template("viz.html", displaydata={},
+                               errordata=3, campus=chosencampusname)
+    elif validateform(form) == ["length"]:
         return render_template("viz.html", displaydata={},
                                errordata=4, campus=chosencampusname)
     elif validateform(form) == ["regex"]:
@@ -97,7 +92,6 @@ def submit():
         pass
 
     # make an api request using the inserting the query variable in the url
-    campus_code = chosencampus.data
     resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices'
                         '/xservice/search/brief?&institution={}&'
                         'query=any,contains,{}&query=facet_rtype,exact,'
@@ -107,7 +101,9 @@ def submit():
 
     # assign the api data to a variable, pass it to the parsing function
     apicall = json.loads(resp.text)
-    readydata = extractfromjson.extract(apicall, choice)
+    # readydata = extractfromjson.extract(apicall, dict(facetchoices).get(form.facet.data))
+    readydata = extractfromjson.extract(apicall, form.facet.data)
+
 
     # if the parsing function fails, dispaly an error, else display
     # viz.html with data
@@ -115,8 +111,11 @@ def submit():
         return render_template("viz.html", displaydata={}, errordata=1,
                                campus=chosencampusname)
     else:
+        print campus_code
+        print query
+        print form.facet.data
         return render_template("viz.html", displaydata=readydata,
-                               errordata=0, val=query, 
+                               errordata=0, val=query,
                                campus=chosencampusname)
 
 app.secret_key = 'key goes here'

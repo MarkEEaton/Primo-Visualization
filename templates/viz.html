@@ -4,7 +4,7 @@
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<style>
 		text {
 			font: 10px sans-serif;
@@ -35,9 +35,9 @@
 			<h3>
 				<p>This utility will let you discover where books are in the {{ campus }} collection:<br></p>
 				<p style="margin-top:-7px">
-					<input type="text" name="query" placeholder="Search these terms" value="{{ val }}" required />
+					<input type="text" name="keywords" placeholder="Search these terms" value="{{ val }}" required />
 					 and show where they appear by 
-					<select name="type" class="form-control">
+					<select name="facet" class="form-control">
 						<option value="lcc" checked>Library of Congress Classification</option>
 						<option value="creationdate">Creation Date</option>
 						<option value="topic">Topic</option>

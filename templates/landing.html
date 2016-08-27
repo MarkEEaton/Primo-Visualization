@@ -25,18 +25,8 @@
 				<p>This utility will let you discover where books are in the <span id="campus-display">Baruch</span> collection:<br></p>
 				<p style="margin-top:-7px">
                     {{ form.keywords(placeholder="Search these terms", value=val) }}
-                    <!-- old input
-					<input type="text" name="query" placeholder="Search these terms" value="{{ val }}" required />
-                    -->
 					and show where they appear by 
                     {{ form.facet(class="form-control") }}
-                    <!-- old facet
-					<select name="type" class="form-control">
-						<option value="lcc" checked>Library of Congress Classification</option>
-						<option value="creationdate">Creation Date</option>
-						<option value="topic">Topic</option>
-					</select>
-                    -->
 					<input type="submit" value="Search" class="btn btn-default active">
 				</p>
 			</h3>
