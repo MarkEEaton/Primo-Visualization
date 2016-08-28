@@ -1,9 +1,6 @@
-from flask import (Flask, render_template, request, session)
+from flask import (Flask, render_template, request)
 from wtforms import *
 import handlesubmit
-import requests
-import extractfromjson
-import json
 from key import key
 
 app = Flask(__name__)
@@ -60,14 +57,14 @@ def submit():
     """ handle form data and display the results """
     form = SearchForm(request.form)
 
-    handlesession = handlesubmit.managesession(form, campuschoices)
-    campus_code = handlesession[0]
-    chosencampusname = handlesession[1]
+    campus_code = handlesubmit.managesession(form, campuschoices)[0]
+    chosencampusname = handlesubmit.managesession(form, campuschoices)[1]
     val = handlesubmit.allvalidate(form, campus_code, chosencampusname)
     if type(val) == list:
-        return handlesubmit.makeapicall(campus_code, val[0], form, chosencampusname)
+        return handlesubmit.makeapicall(campus_code, val[0],
+                                        form, chosencampusname)
     else:
-	return val 
+        return val
 
 app.secret_key = key
 
