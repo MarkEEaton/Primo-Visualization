@@ -70,16 +70,15 @@ def submit():
      
     def allvalidate():
         """ runs the validation; renders templates if validation fails """
-        if validateform(form) == ["length"]:
+        if validateform(form) == None:
+            return False
+        elif "length" in validateform(form):
             return render_template("viz.html", displaydata={},
                                    errordata=4, campus=chosencampusname)
-        elif validateform(form) == ["regex"]:
+        elif "regex" in  validateform(form):
             return render_template("viz.html", displaydata={},
                                    errordata=2, campus=chosencampusname)
-        elif validateform(form) == ["facet"]:
-            return render_template("viz.html", displaydata={},
-                                   errordata=3, campus=chosencampusname)
-        elif validateform(form) == ["campus"]:
+        elif ("facet" or "campus") in validateform(form):
             return render_template("viz.html", displaydata={},
                                    errordata=3, campus=chosencampusname)
         else:
