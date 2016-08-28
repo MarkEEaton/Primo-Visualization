@@ -86,7 +86,7 @@ def submit():
     
     def managesession():
         global campus_code, chosencampusname
-        if not form.campus:
+        if form.campus.data == "None":
             campus_code = session['campus_code']
             chosencampusname = session['chosencampusname']
             pass
@@ -103,7 +103,6 @@ def submit():
     else: pass
 
     # make an api request using the inserting the query variable in the url
-    print "resp query: " + query
     resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices'
                         '/xservice/search/brief?&institution={}&'
                         'query=any,contains,{}&query=facet_rtype,exact,'
