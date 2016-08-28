@@ -45,6 +45,7 @@ class SearchForm(Form):
     facet = SelectField('Facet', choices=facetchoices,
             validators=[validators.Required(message="facet")])
 
+
 @app.route('/')
 def index():
     form = SearchForm()
@@ -54,22 +55,19 @@ def index():
 @app.route('/submit', methods=['POST'])
 def submit():
     form = SearchForm(request.form)
-
+        
     def validateform(form):
         """ validates the form, else returns error codes """
-        print request.method
-        print form.validate()
-        print form.errors
         if form.campus and form.campus.data == "None":
             del form.campus
         if request.method == 'POST' and form.validate():
             global query
             query = form.keywords.data 
-            return True
+            return 
         else:
-            return "blah"
-            # return form.errors.itervalues().next()
-
+            print form.errors.itervalues().next()
+            return form.errors.itervalues().next()
+     
     def allvalidate():
         """ runs the validation; renders templates if validation fails """
         if validateform(form) == ["length"]:
@@ -85,8 +83,8 @@ def submit():
             return render_template("viz.html", displaydata={},
                                    errordata=3, campus=chosencampusname)
         else:
-            pass
-
+            return False 
+    
     def managesession():
         global campus_code, chosencampusname
         if not form.campus:
@@ -100,8 +98,10 @@ def submit():
             session['chosencampusname'] = chosencampusname
             pass
 
-    allvalidate()
     managesession()
+    if allvalidate(): 
+        return allvalidate()
+    else: pass
 
     # make an api request using the inserting the query variable in the url
     print "resp query: " + query
