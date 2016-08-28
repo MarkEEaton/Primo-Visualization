@@ -16,10 +16,9 @@ campuschoices = [('BB', 'Baruch'),
                  ('BX', 'Bronx CC'),
                  ('BC', 'Brooklyn College'),
                  ('CC', 'City College'),
+                 ('NY', 'City Tech'),
                  ('SI', 'CSI'),
                  ('GC', 'Graduate Center'),
-                 ('GJ', 'School of Journalism'),
-                 ('CL', 'School of Law'),
                  ('NC', 'Guttman'),
                  ('HO', 'Hostos'),
                  ('HC', 'Hunter'),
@@ -28,9 +27,10 @@ campuschoices = [('BB', 'Baruch'),
                  ('LG', 'LaGuardia'),
                  ('LE', 'Lehman'),
                  ('ME', 'Medgar Evers'),
-                 ('NY', 'City Tech'),
                  ('QC', 'Queens College'),
                  ('QB', 'Queensborough'),
+                 ('GJ', 'School of Journalism'),
+                 ('CL', 'School of Law'),
                  ('YC', 'York')
                  ]
 
@@ -68,7 +68,6 @@ def submit():
             query = form.keywords.data
             return
         else:
-            print form.errors.itervalues().next()
             return form.errors.itervalues().next()
 
     def allvalidate():
@@ -101,33 +100,38 @@ def submit():
             session['chosencampusname'] = chosencampusname
             pass
 
+    def makeapicall():
+        """ make the api call and pass the data to extract() """
+
+        # make an api request using the inserting the query variable in the url
+        resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices'
+                            '/xservice/search/brief?&institution={}&'
+                            'query=any,contains,{}&query=facet_rtype,exact,'
+                            'books&indx=1&loc=local,scope:'
+                            '(KB,AL,CUNY_BEPRESS)&'
+                            'loc=adaptor,primo_central_multiple_fe'
+                            '&json=true'.format(campus_code, query))
+
+        # assign the api data to a variable, pass it to the parsing function
+        apicall = json.loads(resp.text)
+        readydata = extractfromjson.extract(apicall, form.facet.data)
+
+        # if the parsing function fails, dispaly an error, else display
+        # viz.html with data
+        if readydata is False:
+            return render_template("viz.html", displaydata={}, errordata=1,
+                                   campus=chosencampusname)
+        else:
+            return render_template("viz.html", displaydata=readydata,
+                                   errordata=0, val=query,
+                                   campus=chosencampusname)
+
     managesession()
     if allvalidate():
         return allvalidate()
     else:
         pass
-
-    # make an api request using the inserting the query variable in the url
-    resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices'
-                        '/xservice/search/brief?&institution={}&'
-                        'query=any,contains,{}&query=facet_rtype,exact,'
-                        'books&indx=1&loc=local,scope:(KB,AL,CUNY_BEPRESS)&'
-                        'loc=adaptor,primo_central_multiple_fe'
-                        '&json=true'.format(campus_code, query))
-
-    # assign the api data to a variable, pass it to the parsing function
-    apicall = json.loads(resp.text)
-    readydata = extractfromjson.extract(apicall, form.facet.data)
-
-    # if the parsing function fails, dispaly an error, else display
-    # viz.html with data
-    if readydata is False:
-        return render_template("viz.html", displaydata={}, errordata=1,
-                               campus=chosencampusname)
-    else:
-        return render_template("viz.html", displaydata=readydata,
-                               errordata=0, val=query,
-                               campus=chosencampusname)
+    return makeapicall()
 
 app.secret_key = key
 
