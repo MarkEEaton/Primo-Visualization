@@ -4,7 +4,7 @@ import json
 import extractfromjson
 
 
-def validateform(form):
+def validate_form(form):
     """ validates the form, else returns error codes """
     if form.campus and form.campus.data == "None":
         del form.campus
@@ -14,39 +14,39 @@ def validateform(form):
         return form.errors.itervalues().next()
 
 
-def allvalidate(form, campus_code, chosencampusname):
+def all_validate(form, campus_code, chosen_campus_name):
     """ runs the validation; renders templates if validation fails """
-    if validateform(form) is None:
+    if validate_form(form) is None:
         query = form.keywords.data
         return [query]
-    elif "length" in validateform(form):
-        return render_template("viz.html", displaydata={},
-                               errordata=4, campus=chosencampusname)
-    elif "regex" in validateform(form):
-        return render_template("viz.html", displaydata={},
-                               errordata=2, campus=chosencampusname)
-    elif ("facet" or "campus") in validateform(form):
-        return render_template("viz.html", displaydata={},
-                               errordata=3, campus=chosencampusname)
+    elif "length" in validate_form(form):
+        return render_template("viz.html", display_data={},
+                               error_data=4, campus=chosen_campus_name)
+    elif "regex" in validate_form(form):
+        return render_template("viz.html", display_data={},
+                               error_data=2, campus=chosen_campus_name)
+    elif ("facet" or "campus") in validate_form(form):
+        return render_template("viz.html", display_data={},
+                               error_data=3, campus=chosen_campus_name)
     else:
         return False
 
 
-def managesession(form, campuschoices):
+def manage_session(form, campus_choices):
     """ handles session data """
     if form.campus.data == "None":
         campus_code = session['campus_code']
-        chosencampusname = session['chosencampusname']
-        return campus_code, chosencampusname
+        chosen_campus_name = session['chosen_campus_name']
+        return campus_code, chosen_campus_name
     else:
         campus_code = form.campus.data
-        chosencampusname = dict(campuschoices).get(form.campus.data)
+        chosen_campus_name = dict(campus_choices).get(form.campus.data)
         session['campus_code'] = campus_code
-        session['chosencampusname'] = chosencampusname
-        return campus_code, chosencampusname
+        session['chosen_campus_name'] = chosen_campus_name
+        return campus_code, chosen_campus_name
 
 
-def makeapicall(campus_code, query, form, chosencampusname):
+def make_api_call(campus_code, query, form, chosen_campus_name):
     """ make the api call and pass the data to extract() """
 
     # make an api request using the inserting the query variable in the url
@@ -59,15 +59,15 @@ def makeapicall(campus_code, query, form, chosencampusname):
                         '&json=true'.format(campus_code, query))
 
     # assign the api data to a variable, pass it to the parsing function
-    apicall = json.loads(resp.text)
-    readydata = extractfromjson.extract(apicall, form.facet.data)
+    api_call = json.loads(resp.text)
+    ready_data = extractfromjson.extract(api_call, form.facet.data)
 
     # if the parsing function fails, dispaly an error, else display
     # viz.html with data
-    if readydata is False:
-        return render_template("viz.html", displaydata={}, errordata=1,
-                               campus=chosencampusname)
+    if ready_data is False:
+        return render_template("viz.html", display_data={}, error_data=1,
+                               campus=chosen_campus_name)
     else:
-        return render_template("viz.html", displaydata=readydata,
-                               errordata=0, val=query,
-                               campus=chosencampusname)
+        return render_template("viz.html", display_data=ready_data,
+                               error_data=0, val=query,
+                               campus=chosen_campus_name)

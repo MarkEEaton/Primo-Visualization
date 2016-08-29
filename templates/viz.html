@@ -78,16 +78,16 @@
 	</ul>
 </div>
 	<script>
-		if ({{ errordata }} === 1) {
+		if ({{ error_data }} === 1) {
 			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Terms not found, please try again.</div>" );
 		}
-		else if ({{ errordata }} === 2) {
+		else if ({{ error_data }} === 2) {
 			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Invalid characters in your search string. Use only A-Z and space.</div>" );
 		}
-		else if ({{ errordata }} === 3) {
+		else if ({{ error_data }} === 3) {
 			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Error with form submission. Please try again.</div>" );
 		}
-		else if ({{ errordata }} === 4) {
+		else if ({{ error_data }} === 4) {
 			$( "#message" ).append( "<div class='alert alert-danger' role='alert'>Your search phrase is too long. Max 200 characters.</div>" );
 		}
 		else {};
@@ -102,7 +102,7 @@
 		    .attr("width", diameter)
 		    .attr("height", diameter)
 		    .attr("class", "bubble");
-		var root = {{ displaydata|tojson }};
+		var root = {{ display_data|tojson }};
 		  var node = svg.selectAll(".node")
 		    .data(bubble.nodes(classes(root))
 		    .filter(function(d) { return !d.children; }))
