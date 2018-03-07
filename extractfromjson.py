@@ -6,19 +6,19 @@ def extract(jsontxt, radiochoice):
 
     # parse data based on radio button selected. Returns error if it fails.
     try:
-        fulldata = (jsontxt['SEGMENTS']['JAGROOT']['RESULT']['FACETLIST']
-                    ['FACET'])
+        fulldata = (jsontxt['facets'])
         for facet in fulldata:
-            if facet['@NAME'] == radiochoice:
-                choicedata = facet['FACET_VALUES']
+            if facet['name'] == radiochoice:
+                choicedata = facet['values']
                 errorcheck = True
     except:
         errorcheck = False
 
     # change the keys in the json to what is needed by the d3 script
-    def changeKeys(originalJSON):
-        for line in originalJSON:
-            tr = {'@KEY': 'name', '@VALUE': 'size'}
+    def changeKeys(original_json):
+        pprint(original_json)
+        for line in original_json:
+            tr = {'value': 'name', 'count': 'size'}
             changed.append({tr[k]: v for k, v in line.items()})
         return
 
@@ -29,7 +29,7 @@ def extract(jsontxt, radiochoice):
         elif type(originaldata) is dict:
             return [originaldata]
         else:
-            print "is not a dict or a list."
+            print("is not a dict or a list.")
 
     # if error free, return use-ready json, else return False
     if errorcheck is True:

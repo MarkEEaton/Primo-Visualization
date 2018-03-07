@@ -2,6 +2,7 @@ from flask import (session, render_template, request)
 import requests
 import json
 import extractfromjson
+from key import apikey
 
 
 def validate_form(form):
@@ -50,13 +51,13 @@ def make_api_call(campus_code, query, form, chosen_campus_name):
     """ make the api call and pass the data to extract() """
 
     # make an api request using the inserting the query variable in the url
-    resp = requests.get('http://onesearch.cuny.edu/PrimoWebServices'
-                        '/xservice/search/brief?&institution={}&'
-                        'query=any,contains,{}&query=facet_rtype,exact,'
-                        'books&indx=1&loc=local,scope:'
-                        '(KB,AL,CUNY_BEPRESS)&'
-                        'loc=adaptor,primo_central_multiple_fe'
-                        '&json=true'.format(campus_code, query))
+    resp = requests.get('https://api-na.hosted.exlibrisgroup.com/primo/v1/'
+                        'search?vid=CUNY&institution={}&scope=everything'
+                        '&q=any,contains,{};facet_rtype,exact,books'
+                        '&indx=1&loc=local,scope:(KB,AL,CUNY_BEPRESS)'
+                        '&loc=adaptor,primo_cetral_multiple_fe'
+                        '&apikey={}'.format(campus_code, query, apikey))
+
 
     # assign the api data to a variable, pass it to the parsing function
     api_call = json.loads(resp.text)

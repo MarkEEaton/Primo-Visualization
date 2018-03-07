@@ -1,7 +1,7 @@
 from flask import (Flask, render_template, request)
 from wtforms import *
 import handlesubmit
-from key import key
+from key import appkey
 
 app = Flask(__name__)
 
@@ -66,7 +66,7 @@ def submit():
     else:
         return val
 
-app.secret_key = key
+app.secret_key = appkey
 
 if __name__ == '__main__':
     app.run(port=8000, host='127.0.0.1', debug=True)
