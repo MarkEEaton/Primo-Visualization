@@ -16,7 +16,6 @@ def extract(jsontxt, radiochoice):
 
     # change the keys in the json to what is needed by the d3 script
     def changeKeys(original_json):
-        pprint(original_json)
         for line in original_json:
             tr = {'value': 'name', 'count': 'size'}
             changed.append({tr[k]: v for k, v in line.items()})

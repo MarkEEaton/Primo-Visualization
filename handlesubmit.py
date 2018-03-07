@@ -54,8 +54,8 @@ def make_api_call(campus_code, query, form, chosen_campus_name):
     resp = requests.get('https://api-na.hosted.exlibrisgroup.com/primo/v1/'
                         'search?vid=CUNY&institution={}&scope=everything'
                         '&q=any,contains,{};facet_rtype,exact,books'
-                        '&indx=1&loc=local,scope:(KB,AL,CUNY_BEPRESS)'
-                        '&loc=adaptor,primo_cetral_multiple_fe'
+                        #'&indx=1&loc=local,scope:(KB,AL,CUNY_BEPRESS)'
+                        #'&loc=adaptor,primo_central_multiple_fe'
                         '&apikey={}'.format(campus_code, query, apikey))
 
 
