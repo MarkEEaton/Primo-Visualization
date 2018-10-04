@@ -109,7 +109,7 @@ def index():
                     try:
                         error_text = form.errors['college'][0]
                     except:
-                        print('unexpected error')
+                        error_text = 'Unexpected error'
             finally:
                 error_message = "<div class='alert alert-danger' role='alert'>" + error_text + "</div>"
                 return render_template('index.html', error_message=error_message,
