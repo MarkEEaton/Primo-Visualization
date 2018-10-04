@@ -1,8 +1,6 @@
 # Primo-Visualization
 
-This Flask app searches CUNY OneSearch's API and returns a visualization of where books can be found by LC Classification, creation date, and topic.
-
-The API call will only work from authorized IPs.
+This Flask app queries Primo's Search API and returns a visualization of where books can be found by LC Classification, creation date, and topic.
 
 The d3.js script is mostly drawn from http://bl.ocks.org/mbostock/4063269 ([GNU General Public License, version 3](https://opensource.org/licenses/GPL-3.0))
 
