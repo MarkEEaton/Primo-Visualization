@@ -76,9 +76,9 @@ def index():
             if api_call['facets'] == []:
                 error_message = "<div class='alert alert-danger' role='alert'>No results found!</div>"
                 return render_template('index.html', error_message=error_message,
-                                   final_data=faux_data, form=form)
+                                       final_data=faux_data, form=form)
 
-            # parse the api data 
+            # parse the api data
             facet_data = api_call['facets']
             for facet in facet_data:
                 if facet['name'] == get_facet:
@@ -100,9 +100,20 @@ def index():
             return render_template("index.html", error_message='',
                                    final_data=final_data, form=form)
         else:
-            error_message = "<div class='alert alert-danger' role='alert'>" + form.errors['keyword'][0] + "</div>"
-            return render_template('index.html', error_message=error_message,
-                                   final_data=faux_data, form=form)
+            try:
+                error_text = form.errors['keyword'][0]
+            except:
+                try:
+                    error_text = form.errors['facet'][0]
+                except:
+                    try:
+                        error_text = form.errors['college'][0]
+                    except:
+                        print('unexpected error')
+            finally:
+                error_message = "<div class='alert alert-danger' role='alert'>" + error_text + "</div>"
+                return render_template('index.html', error_message=error_message,
+                                       final_data=faux_data, form=form)
 
 
 if __name__ == '__main__':
