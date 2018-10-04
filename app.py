@@ -70,14 +70,22 @@ def index():
                                 '&apikey={}'.format(get_keyword, get_college, apikey))
 
 
-            # assign the api data to a variable, pass it to the parsing function
             api_call = json.loads(resp.text)
+
+            # what if there are no results?
+            if api_call['facets'] == []:
+                error_message = "<div class='alert alert-danger' role='alert'>No results found!</div>"
+                return render_template('index.html', error_message=error_message,
+                                   final_data=faux_data, form=form)
+
+            # parse the api data 
             facet_data = api_call['facets']
             for facet in facet_data:
                 if facet['name'] == get_facet:
                     chosen_facet = facet['values']
 
             # make chosen_facet a list if it is not a list
+            # this will happen if there is only one result
             if isinstance(chosen_facet, dict):
                 chosen_facet = [chosen_facet]
 
