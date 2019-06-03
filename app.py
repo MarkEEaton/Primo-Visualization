@@ -63,6 +63,9 @@ def index():
             get_facet = request.form['facet']
             get_college = request.form['college']
             get_keyword = request.form['keyword']
+            print("---->        Facet: " + get_facet)
+            print("---->        College: " + get_college)
+            print("---->        Terms: " + get_keyword)
             resp = requests.get('https://api-na.hosted.exlibrisgroup.com/primo/v1/'
                                 'search?vid=CUNY&scope=everything'
                                 '&q=any,contains,{}&qInclude=facet_local3,exact,{}'
