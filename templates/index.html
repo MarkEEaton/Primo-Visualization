@@ -4,38 +4,20 @@
 <link rel="stylesheet" href="/static/bootstrap.min.css" />
 <script src="/static/bootstrap.min.js"></script>
 <script src="/static/jquery-3.5.1.min.js"></script>
-<style type="text/css">
-	.form-element {
-		padding: 0px 5px 0px 5px;
-	}
-	p {
-		margin-bottom: 3px;
-		display: inline-block;
-	}
-	.btn:hover, .btn:focus, .btn:active{
-		background-color: #FFF;
-		color: #000;
-	}
-	.alert {
-		display: inline-block;
-	}
-	#error {
-		margin-top: -5px;
-	}
-</style>
+<link rel="stylesheet" href="/static/default.css" />
 <title>
 	SeeCollections
 </title>	
 </head>
 <body>
-<div style="padding:20px">
+<div id="maindiv">
 	<h1>
 		SeeCollections
 	</h1>
 	<form autocomplete="off" action="{{ url_for('index') }}" method="post">
 			<div class="form-group">
 			<h4>
-					<p>Search the <span class="form-element">{{ form.college(class="btn btn-outline-secondary dropdown-toggle") }}</span> collection for books on <span class="form-element" type="text">{{ form.keyword(style="height: 35px;", class="btn btn-outline-secondary", placeholder="Keywords") }}</span> and show where they appear by <span class="form-element">{{ form.facet(class="btn btn-outline-secondary dropdown-toggle") }}</span> <input type="submit" value="Try it now!" class="btn btn-large btn-success form-element" style="padding: 4px 12px 4px 12px;">
+					<p>Search the <span class="form-element">{{ form.college(class="btn btn-outline-secondary dropdown-toggle") }}</span> collection for books on <span class="form-element" type="text">{{ form.keyword(id="kw", class="btn btn-outline-secondary", placeholder="Keywords") }}</span> and show where they appear by <span class="form-element">{{ form.facet(class="btn btn-outline-secondary dropdown-toggle") }}</span> <input type="submit" value="Try it now!" class="btn btn-large btn-success form-element" id="submitbutton">
 					</p>
 
 			</h4>
@@ -43,48 +25,7 @@
 	</form>
 	<div id="error">{{ error_message|safe }}</div>
 </div>
-<script>
-	var diameter = 960,
-	    format = d3.format(",d"),
-	    color = d3.scale.category20c();
-	var bubble = d3.layout.pack()
-	    .sort(null)
-	    .size([diameter, diameter])
-	    .padding(1.5);
-	var svg = d3.select("body").append("svg")
-	    .attr("width", diameter)
-	    .attr("height", diameter)
-	    .attr("class", "bubble");
-	var root = {{ final_data|tojson }};
-	var node = svg.selectAll(".node")
-	    .data(bubble.nodes(classes(root))
-	    .filter(function(d) { return !d.children; }))
-	    .enter().append("g")
-	    .attr("class", "node")
-	    .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-	node.append("title")
-        .text(function(d) { return d.className + ": " + format(d.value); });
-	node.append("circle")
-		.attr("r", function(d) { return d.r; })
-		.style("fill", function(d) { return color(d.packageName); });
-	node.append("text")
-	    .attr("dy", ".3em")
-	    .style("text-anchor", "middle")
-	    .text(function(d) { return d.className.substring(0, d.r / 3); });
-	// Returns a flattened hierarchy containing all leaf nodes under the root.
-	function classes(root) {
-	var classes = [];
-
-	function recurse(name, node) {
-	    if (node.children) node.children.forEach(function(child) { 
-	recurse(node.name, child); });
-	    else classes.push({packageName: name, className: node.name, value: 
-	node.size});
-	}
-	recurse(null, root);
-		return {children: classes};
-	}
-	d3.select(self.frameElement).style("height", diameter + "px");
-</script>
+<div id="datadiv" data-dee3="{{ final_data }}"></div>
+<script src="/static/default.js"></script>
 </body>
 </html>

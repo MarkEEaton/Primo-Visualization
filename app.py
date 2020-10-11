@@ -73,6 +73,7 @@ def add_security_headers(resp):
     resp.headers["X-Frame-Options"] = "SAMEORIGIN"
     resp.headers["X-XSS-Protection"] = "1; mode=block"
     resp.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    resp.headers["Content-Security-Policy"] = "script-src 'self'; style-src 'self'; default-src 'none'"
     return resp
 
 

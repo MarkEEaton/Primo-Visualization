@@ -1,0 +1,34 @@
+.form-element {
+	padding: 0px 5px 0px 5px;
+}
+
+p {
+	margin-bottom: 3px;
+	display: inline-block;
+}
+
+.btn:hover, .btn:focus, .btn:active{
+	background-color: #FFF;
+	color: #000;
+}
+
+.alert {
+	display: inline-block;
+}
+
+#error {
+	margin-top: -5px;
+}
+
+#maindiv {
+	padding: 20px;
+}
+
+#submitbutton {
+	padding: 3px 12px 4px 12px;
+}
+
+#kw {
+	height: 35px;
+}
+
