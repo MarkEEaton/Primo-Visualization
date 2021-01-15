@@ -1,5 +1,7 @@
 # Primo-Visualization
 
+### This project was taken offline in January 2021, due to breaking changes in the Primo Search API.
+
 This Flask app queries Primo's Search API and returns a visualization of where books can be found by LC Classification, creation date, and topic.
 
 Completely rewritten in October 2018.
