@@ -6,7 +6,7 @@ dparse==0.4.1
 Flask==1.0.2
 idna==2.7
 itsdangerous==0.24
-Jinja2==2.10.1
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 packaging==18.0
 pyparsing==2.2.2
